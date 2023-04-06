@@ -16,9 +16,9 @@
       >
         Search
       </button>
-      <button class="btn btn-outline-dark" type="click" (click)="clearData()">
+      <!-- <button class="btn btn-outline-dark" type="click" (click)="clearData()">
         Clear Data
-      </button>
+      </button> --> 
       <!-- <button class="btn btn-outline-dark" type="click" (click)="loadData()">
         Load Data
       </button> -->
@@ -80,11 +80,12 @@
           </div>
         </div>
         <div class="mt-2">
-          <button (click)="filter()" class="btn btn-primary me-2" type="button">Filtra</button>
+          <button (click)="handlerFilter()" class="btn btn-primary me-2" type="button">Filtra</button>
           <button (click)="resetFilter()" class="btn btn-dark" type="reset">Reset</button>
         </div> 
       </form>
-      <h2>Risultati trovati:</h2>
+      <h2 *ngIf="searchedWord" class="display-6">"{{searchedWord | titlecase}}"</h2>
+      <h3>Risultati trovati: {{ racketsNumber > 0 ? racketsNumber : " " }}</h3>
       <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-4 g-3">
         <div class="col" *ngFor="let racket of result">
           <div class="card">
@@ -93,11 +94,11 @@
               <h5 class="card-title">{{ racket.marca | uppercase }}</h5>
               <p class="card-text">{{ racket.modello }}</p>
               <div class="d-flex justify-content-between">
-                <span class="fw-bold fs-3 text-danger">{{
+                <span class="fw-bold fs-3" [ngClass]="{'text-danger':racket.vecchioPrezzo}">{{
                   racket.prezzo | currency : "EUR"
                 }}</span>
                 <div *ngIf="racket.vecchioPrezzo > 0">
-                  <span class="fw-bold fs-3 text-decoration-line-through">
+                  <span class="text-decoration-line-through">
                     {{ racket.vecchioPrezzo | currency : "EUR" }}
                   </span>
                 </div>
@@ -121,7 +122,7 @@
   </div>
 </div>
 <div *ngIf="result.length > 0" class="position-relative m-4">
-  <nav class="position-absolute bottom-0 end-0" aria-label="pagination">
+  <nav *ngIf="!loading" class="position-absolute bottom-0 end-0" aria-label="pagination">
     <ul class="pagination">
       <div *ngIf="index > 1">
         <li class="page-item">

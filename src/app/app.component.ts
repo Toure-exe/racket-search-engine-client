@@ -19,7 +19,10 @@ export class AppComponent {
   public trySearch: boolean;
   public errorServer: boolean;
   public index: number;
+  public isFiltered: boolean
+  public racketsNumber: number;
   public pagesNumber: number;
+  public searchedWord: string;
   public colorList: any[];
   public sexList: any[];
   public BrandList: any[];
@@ -40,8 +43,11 @@ export class AppComponent {
     this.loading = false;
     this.trySearch = false;
     this.errorServer = false;
+    this.isFiltered = false;
     this.index = 1;
+    this.racketsNumber = 0;
     this.pagesNumber =1;
+    this.searchedWord = "";
     this.loadData();
     this.colorList = [
       { color_id: "nero", color_text: 'Nero' },
@@ -113,15 +119,29 @@ export class AppComponent {
   }
 
   public handlerSearch(): void {
+    this.resetFilter();
     this.errorServer = false;
     this.loading = true;
     this.trySearch = true;
+    this.isFiltered = false;
+    this.searchedWord = this.searchValue;
     this.appService
-      .getRacketsBySearch(this.searchValue)
+      .getRacketsBySearch(this.searchedWord,this.index)
       .pipe(
         tap({
           next: (res) => {
-            this.result = res;
+            this.result = res.rackets;
+            this.pagesNumber = res.pages;
+            this.racketsNumber = res.elements;
+            this.colorList = res.colori.map((c : string) =>{
+             return {color_id: c, color_text: c}
+            })
+            this.sexList = res.sessi.map((c : string) =>{
+              return {sex_id: c, sex_text: c}
+             })
+             this.BrandList = res.marche.map((c : string) =>{
+              return {brand_id: c, brand_text: c}
+             })
             this.loading = false;
           },
           error: (err) => {
@@ -136,6 +156,7 @@ export class AppComponent {
   public loadData(): void {
     this.errorServer = false;
     this.loading = true;
+    this.searchedWord ="";
     this.appService
       .getRackets(this.index)
       .pipe(
@@ -143,6 +164,16 @@ export class AppComponent {
           next: (res) => {
             this.result = res.rackets;
             this.pagesNumber = res.pages;
+            this.racketsNumber = res.elements;
+            this.colorList = res.colori.map((c : string) =>{
+              return {color_id: c, color_text: c}
+             })
+             this.sexList = res.sessi.map((c : string) =>{
+               return {sex_id: c, sex_text: c}
+              })
+              this.BrandList = res.marche.map((c : string) =>{
+               return {brand_id: c, brand_text: c}
+              })
             this.loading = false;
           },
           error: (err) => {
@@ -158,23 +189,69 @@ export class AppComponent {
     this.result = [];
     this.trySearch = false;
     this.errorServer = false;
+    this.sexList = [];
+    this.BrandList = [];
+    this.colorList = [];
     this.index = 1;
   }
 
   public pageIndexingHandler(value: number): void{
     this.index = value;
-    this.loadData();
+    if(this.isFiltered){
+      this.filter();
+    } else {
+      this.searchedWord? this.handlerSearch() : this.loadData();
+    }
+      
+  }
+
+  public handlerFilter(): void{
+    this.index = 1;
+    this.filter();
   }
 
   public filter(): void{
-    console.log(this.selectedOrder,this.selectedColors,
-      this.selectedSex,this.selectedBrand);
+     const filter = {
+      keyword: this.searchedWord,
+      order: this.selectedOrder,
+      colors: this.selectedColors.map(c =>{
+        return c.color_id;
+      }
+      ),
+      brands: this.selectedBrand.map(c =>{
+        return c.brand_id;
+      }
+      ),
+      sexList: this.selectedSex.map(c =>{
+        return c.sex_id;
+      }
+      )
+     };
+     this.loading=true;
+     this.isFiltered = true;
+     this.appService.filterRackets(filter,this.index)
+     .pipe(
+      tap({
+        next: (res)=>{
+          this.result = res.rackets;
+          this.pagesNumber = res.pages;
+          this.racketsNumber = res.elements;
+          this.loading = false;
+
+        },
+        error:(err)=>{
+          this.loading = false;
+          this.errorServer = true;
+        }
+      })
+     ).subscribe()
   }
 
   public resetFilter(): void{
     this.selectedColors = [];
     this.selectedSex = [];
     this.selectedBrand = [];
+    this.selectedOrder = "default";
   }
 
   public onColorSelect(e: any): void{
