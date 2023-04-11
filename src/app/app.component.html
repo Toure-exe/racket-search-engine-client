@@ -1,3 +1,5 @@
+<app-navbar></app-navbar>
+<router-outlet></router-outlet>
 <nav class="navbar bg-light sticky-top">
   <div class="container-fluid">
     <span class="navbar-brand fw-bold" (click)="loadData()">{{ title }}</span>
@@ -18,7 +20,7 @@
       </button>
       <!-- <button class="btn btn-outline-dark" type="click" (click)="clearData()">
         Clear Data
-      </button> --> 
+      </button> -->
       <!-- <button class="btn btn-outline-dark" type="click" (click)="loadData()">
         Load Data
       </button> -->
@@ -33,7 +35,11 @@
         <div class="row row-cols-1 row-cols-lg-4">
           <div class="col">
             <label class="form-label">Ordinamento:</label>
-            <select class="form-select" [(ngModel)]="selectedOrder" name="order">
+            <select
+              class="form-select"
+              [(ngModel)]="selectedOrder"
+              name="order"
+            >
               <option value="default" selected>Piu' venduti</option>
               <option value="asc">Prezzo crescente</option>
               <option value="desc">Prezzo decrescente</option>
@@ -46,7 +52,7 @@
               [settings]="dropdownColorSettings"
               [data]="colorList"
               [(ngModel)]="selectedColors"
-              [ngModelOptions] = "{standalone: true}"
+              [ngModelOptions]="{ standalone: true }"
               (onSelect)="onColorSelect($event)"
               (onSelectAll)="onColorSelectAll($event)"
             >
@@ -59,12 +65,12 @@
               [settings]="dropdownSexSettings"
               [data]="sexList"
               [(ngModel)]="selectedSex"
-              [ngModelOptions] = "{standalone: true}"
+              [ngModelOptions]="{ standalone: true }"
               (onSelect)="onSexSelect($event)"
               (onSelectAll)="onSexSelectAll($event)"
             >
             </ng-multiselect-dropdown>
-          </div> 
+          </div>
           <div class="col">
             <label class="form-label">Marca:</label>
             <ng-multiselect-dropdown
@@ -72,7 +78,7 @@
               [settings]="dropdownBrandSettings"
               [data]="BrandList"
               [(ngModel)]="selectedBrand"
-              [ngModelOptions] = "{standalone: true}"
+              [ngModelOptions]="{ standalone: true }"
               (onSelect)="onBrandSelect($event)"
               (onSelectAll)="onBrandSelectAll($event)"
             >
@@ -80,11 +86,21 @@
           </div>
         </div>
         <div class="mt-2">
-          <button (click)="handlerFilter()" class="btn btn-primary me-2" type="button">Filtra</button>
-          <button (click)="resetFilter()" class="btn btn-dark" type="reset">Reset</button>
-        </div> 
+          <button
+            (click)="handlerFilter()"
+            class="btn btn-primary me-2"
+            type="button"
+          >
+            Filtra
+          </button>
+          <button (click)="resetFilter()" class="btn btn-dark" type="reset">
+            Reset
+          </button>
+        </div>
       </form>
-      <h2 *ngIf="searchedWord" class="display-6">"{{searchedWord | titlecase}}"</h2>
+      <h2 *ngIf="searchedWord" class="display-6">
+        "{{ searchedWord | titlecase }}"
+      </h2>
       <h3>Risultati trovati: {{ racketsNumber > 0 ? racketsNumber : " " }}</h3>
       <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 row-cols-4 g-3">
         <div class="col" *ngFor="let racket of result">
@@ -94,9 +110,11 @@
               <h5 class="card-title">{{ racket.marca | uppercase }}</h5>
               <p class="card-text">{{ racket.modello }}</p>
               <div class="d-flex justify-content-between">
-                <span class="fw-bold fs-3" [ngClass]="{'text-danger':racket.vecchioPrezzo}">{{
-                  racket.prezzo | currency : "EUR"
-                }}</span>
+                <span
+                  class="fw-bold fs-3"
+                  [ngClass]="{ 'text-danger': racket.vecchioPrezzo }"
+                  >{{ racket.prezzo | currency : "EUR" }}</span
+                >
                 <div *ngIf="racket.vecchioPrezzo > 0">
                   <span class="text-decoration-line-through">
                     {{ racket.vecchioPrezzo | currency : "EUR" }}
@@ -122,7 +140,11 @@
   </div>
 </div>
 <div *ngIf="result.length > 0" class="position-relative m-4">
-  <nav *ngIf="!loading" class="position-absolute bottom-0 end-0" aria-label="pagination">
+  <nav
+    *ngIf="!loading"
+    class="position-absolute bottom-0 end-0"
+    aria-label="pagination"
+  >
     <ul class="pagination">
       <div *ngIf="index > 1">
         <li class="page-item">

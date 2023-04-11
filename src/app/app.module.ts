@@ -6,10 +6,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SearchComponent } from './pages/search/search.component';
+import { CrudComponent } from './pages/crud/crud.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NavbarComponent,
+    SearchComponent,
+    CrudComponent
   ],
   imports: [
     BrowserModule,
