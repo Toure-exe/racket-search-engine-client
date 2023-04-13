@@ -1,0 +1,176 @@
+<div class="row">
+  <div class="col">
+    <form [formGroup]="racketForm">
+      <label for="brand" class="form-label">Marchio</label>
+      <input
+        type="text"
+        name="brand"
+        formControlName="brand"
+        class="form-control"
+      />
+      <label for="model" class="form-label">Modello</label>
+      <input
+        type="text"
+        name="model"
+        formControlName="model"
+        class="form-control"
+      />
+      <label for="oldPrice" class="form-label">Vecchio Prezzo</label>
+      <input
+        type="text"
+        name="oldPrice"
+        formControlName="oldPrice"
+        class="form-control"
+      />
+      <label for="price" class="form-label"
+        >Prezzo Attuale o Prezzo Scontato</label
+      >
+      <input
+        type="text"
+        name="price"
+        formControlName="price"
+        class="form-control"
+      />
+      <label for="sex" class="form-label">Sesso</label>
+      <input
+        type="text"
+        name="sex"
+        formControlName="sex"
+        class="form-control"
+      />
+      <label for="mainColor" class="form-label">Colore Principale</label>
+      <input
+        type="text"
+        name="mainColor"
+        formControlName="mainColor"
+        class="form-control"
+      />
+      <label for="secondaryColor" class="form-label">Colore Secondario</label>
+      <input
+        type="text"
+        name="secondaryColor"
+        formControlName="secondaryColor"
+        class="form-control"
+      />
+      <label for="profile" class="form-label">Profilo</label>
+      <input
+        type="text"
+        name="profile"
+        formControlName="profile"
+        class="form-control"
+      />
+      <label for="length" class="form-label">Lunghezza</label>
+      <input
+        type="text"
+        name="length"
+        formControlName="length"
+        class="form-control"
+      />
+      <label for="weight" class="form-label">Peso</label>
+      <input
+        type="text"
+        name="weight"
+        formControlName="weight"
+        class="form-control"
+      />
+      <label for="idProduct" class="form-label">ID Prodotto</label>
+      <input
+        type="text"
+        name="idProduct"
+        formControlName="idProduct"
+        class="form-control"
+      />
+      <label for="typeGame" class="form-label">Per quale gioco</label>
+      <input
+        type="text"
+        name="typeGame"
+        formControlName="typeGame"
+        class="form-control"
+      />
+      <label for="typeProduct" class="form-label">Tipologia Prodotto</label>
+      <input
+        type="text"
+        name="typeProduct"
+        formControlName="typeProduct"
+        class="form-control"
+      />
+      <label for="image" class="form-label">Immagine</label>
+      <input
+        type="text"
+        name="image"
+        formControlName="image"
+        class="form-control"
+      />
+      <label for="material" class="form-label">Materiale Prodotto</label>
+      <input
+        type="text"
+        name="material"
+        formControlName="material"
+        class="form-control"
+      />
+      <label for="seniorityPlayer" class="form-label"
+        >Livello Professionalità</label
+      >
+      <input
+        type="text"
+        name="seniorityPlayer"
+        formControlName="seniorityPlayer"
+        class="form-control"
+      />
+      <label for="shape" class="form-label">Forma</label>
+      <input
+        type="text"
+        name="shape"
+        formControlName="shape"
+        class="form-control"
+      />
+      <label for="age" class="form-label">Fascia d'età</label>
+      <input
+        type="text"
+        name="age"
+        formControlName="age"
+        class="form-control"
+      />
+      <label for="balance" class="form-label">Bilanciamento</label>
+      <input
+        type="text"
+        name="balance"
+        formControlName="balance"
+        class="form-control"
+      />
+      <label for="year" class="form-label">Anno Prodotto</label>
+      <input
+        type="text"
+        name="year"
+        formControlName="year"
+        class="form-control"
+      />
+      <label for="urlProduct" class="form-label">Link Prodotto</label>
+      <input
+        type="text"
+        name="urlProduct"
+        formControlName="urlProduct"
+        class="form-control"
+      />
+      <div class="mt-2">
+        <button
+          class="btn btn-primary me-2"
+          type="click"
+          *ngIf="!selectedRacket.marca"
+          (click)="addRacket()"
+        >
+          Inserisci
+        </button>
+        <button
+          class="btn btn-primary me-2"
+          type="click"
+          *ngIf="selectedRacket.marca"
+          (click)="updateRacket()"
+        >
+          Aggiorna
+        </button>
+        <button class="btn btn-dark" type="reset">Reset</button>
+      </div>
+    </form>
+  </div>
+</div>

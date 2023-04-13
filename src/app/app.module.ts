@@ -8,14 +8,13 @@ import { HttpClientModule } from '@angular/common/http'
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { SearchComponent } from './pages/search/search.component';
-import { CrudComponent } from './pages/crud/crud.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SearchComponent,
-    CrudComponent
   ],
   imports: [
     BrowserModule,
@@ -23,7 +22,8 @@ import { CrudComponent } from './pages/crud/crud.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    NgMultiSelectDropDownModule.forRoot()
+    NgMultiSelectDropDownModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

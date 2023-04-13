@@ -1,29 +1,28 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { tap } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { racketDto } from 'src/app/models/racketDto';
 
 @Component({
-  selector: 'app-crud',
-  templateUrl: './crud.component.html',
-  styleUrls: ['./crud.component.scss']
+  selector: 'app-management',
+  templateUrl: './management.component.html',
+  styleUrls: ['./management.component.scss']
 })
-export class CrudComponent {
+export class ManagementComponent {
+
+  public loading: boolean;
 
   public racketForm: FormGroup;
   public selectedRacket: racketDto;
-  public index: number;
-  public racketList: racketDto[];
-  public pagesNumber: number;
-  public loading: boolean;
+
 
   constructor(private appService: AppService) {
+
     this.loading = false;
+
     this.selectedRacket = {} as racketDto;
-    this.index = 1;
-    this.pagesNumber = 0;
-    this.racketList = [];
+
     this.racketForm = new FormGroup({
       brand: new FormControl(null),
       model: new FormControl(null),
@@ -47,84 +46,75 @@ export class CrudComponent {
       year: new FormControl(null),
       urlProduct: new FormControl(null)
     });
-
-    this.loadData();
-    
   }
 
-  public pageIndexingHandler(value: number): void{
-    this.index = value;
-    this.loadData();
-  }
-
-  public get brand(){
+  public get brand() {
     return this.racketForm.get('brand')?.value;
   }
 
-  public get oldPrice(){
+  public get oldPrice() {
     return this.racketForm.get('oldPrice')?.value;
   }
 
-  public get price(){
+  public get price() {
     return this.racketForm.get('price')?.value;
   }
-  public get sex(){
+  public get sex() {
     return this.racketForm.get('sex')?.value;
   }
-  public get mainColor(){
+  public get mainColor() {
     return this.racketForm.get('mainColor')?.value;
   }
-  public get mosecondaryColordel(){
+  public get mosecondaryColordel() {
     return this.racketForm.get('mosecondaryColordel')?.value;
   }
-  public get profile(){
+  public get profile() {
     return this.racketForm.get('profile')?.value;
   }
-  public get length(){
+  public get length() {
     return this.racketForm.get('length')?.value;
   }
-  public get weight(){
+  public get weight() {
     return this.racketForm.get('weight')?.value;
   }
-  public get idProduct(){
+  public get idProduct() {
     return this.racketForm.get('idProduct')?.value;
   }
-  public get typeGame(){
+  public get typeGame() {
     return this.racketForm.get('typeGame')?.value;
   }
-  public get typeProduct(){
+  public get typeProduct() {
     return this.racketForm.get('typeProduct')?.value;
   }
-  public get image(){
+  public get image() {
     return this.racketForm.get('image')?.value;
   }
-  public get seniorityPlayer(){
+  public get seniorityPlayer() {
     return this.racketForm.get('seniorityPlayer')?.value;
   }
 
-  public get shape(){
+  public get shape() {
     return this.racketForm.get('shape')?.value;
   }
-  public get age(){
+  public get age() {
     return this.racketForm.get('age')?.value;
   }
-  public get balance(){
+  public get balance() {
     return this.racketForm.get('balance')?.value;
   }
-  public get year(){
+  public get year() {
     return this.racketForm.get('year')?.value;
   }
-  public get urlProduct(){
+  public get urlProduct() {
     return this.racketForm.get('urlProduct')?.value;
   }
 
-  public get model(){
+  public get model() {
     return this.racketForm.get('model')?.value;
   }
 
+  public addRacket(): void {
 
-  public addRacket():void{
-    
     const racket: racketDto = {
       prezzo: this.price,
       vecchioPrezzo: this.oldPrice,
@@ -152,37 +142,18 @@ export class CrudComponent {
     }
     console.log(racket);
     this.appService.insertRacket(racket)
-    .pipe(
-      tap({
-        next: (res) => {
-          console.log("RESPONSE: ",res);
-        },
-        error: (err) =>{
-          console.log(err);
-        },
-      })
-    ).subscribe(()=> this.loadData());
-  }
-
-  public deleteRacket(racket: racketDto):void{
-    this.appService
-      .deleteRacket(racket)
       .pipe(
         tap({
           next: (res) => {
-            this.loading = false;
-            
+            console.log("RESPONSE: ", res);
           },
           error: (err) => {
-            this.loading = false;
             console.log(err);
           },
         })
-      )
-      .subscribe(()=>this.loadData());
+      ).subscribe();
   }
-
-  public updateRacket(): void{
+  public updateRacket(): void {
     const racket: racketDto = {
       prezzo: this.price,
       vecchioPrezzo: this.oldPrice,
@@ -208,23 +179,22 @@ export class CrudComponent {
       bilanciamento: this.balance,
       anno: this.year
     }
-    const updatedRacket = {...this.selectedRacket,...racket}
+    const updatedRacket = { ...this.selectedRacket, ...racket }
     this.appService
-    .updateRacket(updatedRacket)
-    .pipe(
-      tap({
-        next: (res) => {
-          this.loading = false;
-          
-        },
-        error: (err) => {
-          this.loading = false;
-          console.log(err);
-        },
-      })
-    )
-    .subscribe(()=>{this.loadData()
-                    this.cleanForm()});
+      .updateRacket(updatedRacket)
+      .pipe(
+        tap({
+          next: (res) => {
+            this.loading = false;
+
+          },
+          error: (err) => {
+            this.loading = false;
+            console.log(err);
+          },
+        })
+      )
+      .subscribe()
   }
 
   private cleanForm():void{
@@ -273,28 +243,6 @@ export class CrudComponent {
     this.racketForm.patchValue({balance: racket.bilanciamento});
     this.racketForm.patchValue({year: racket.anno});
     this.racketForm.patchValue({urlProduct: racket.url});
-
-  }
-
-  public loadData(): void{
-    this.loading = true;
-    this.appService
-      .getRackets(this.index)
-      .pipe(
-        tap({
-          next: (res) => {
-            this.loading = false;
-            this.racketList = res.rackets;
-            this.pagesNumber = res.pages;
-            
-          },
-          error: (err) => {
-            this.loading = false;
-            console.log(err);
-          },
-        })
-      )
-      .subscribe();
 
   }
 }

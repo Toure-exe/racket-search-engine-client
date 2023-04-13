@@ -1,28 +1,27 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { EventType } from '@angular/router';
+import { PageEvent } from '@angular/material/paginator';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { tap } from 'rxjs';
-import { AppService } from '../../app.service';
+import { AppService } from 'src/app/app.service';
+import { racketDto } from 'src/app/models/racketDto';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.scss']
 })
-export class SearchComponent {
-
-  public title = 'Motore di ricerca padel';
+export class AdminComponent {
 
   public searchForm: FormGroup;
-  public result: any[];
-  public loading: boolean;
-  public trySearch: boolean;
-  public errorServer: boolean;
+
+
   public index: number;
-  public isFiltered: boolean
-  public racketsNumber: number;
+  public racketList: racketDto[];
+  public racketsNumber: number
   public pagesNumber: number;
+  public loading: boolean;
+  public isFiltered: boolean
   public searchedWord: string;
   public colorList: any[];
   public sexList: any[];
@@ -34,22 +33,26 @@ export class SearchComponent {
   public dropdownColorSettings :IDropdownSettings;
   public dropdownSexSettings :IDropdownSettings;
   public dropdownBrandSettings :IDropdownSettings;
+  public trySearch: boolean;
+  public errorServer: boolean;
 
   constructor(private appService: AppService) {
+    this.trySearch = false;
+    this.errorServer = false;
+
+    this.loading = false;
+    this.index = 1;
+    this.pagesNumber = 0;
+    this.racketList = [];
+    this.racketsNumber = 0;
     this.searchForm = new FormGroup({
       search: new FormControl(null),
     });
+
     this.selectedOrder="default";
-    this.result = [];
-    this.loading = false;
-    this.trySearch = false;
-    this.errorServer = false;
     this.isFiltered = false;
-    this.index = 1;
-    this.racketsNumber = 0;
-    this.pagesNumber =1;
     this.searchedWord = "";
-    this.loadData();
+
     this.colorList = [
       { color_id: "nero", color_text: 'Nero' },
       { color_id: "bianco", color_text: 'Bianco' },
@@ -111,7 +114,7 @@ export class SearchComponent {
       allowSearchFilter: true
     };
 
-
+    this.loadData();
 
   }
 
@@ -119,90 +122,65 @@ export class SearchComponent {
     return this.searchForm.get('search')?.value;
   }
 
-  public handlerSearch(): void {
-    this.resetFilter();
-    this.errorServer = false;
-    this.loading = true;
-    this.trySearch = true;
-    this.isFiltered = false;
-    this.searchedWord = this.searchValue;
+  public pageIndexingHandler(value: PageEvent): void{
+    console.log(value)
+    this.index = value.pageIndex+1;
+    this.loadData();
+  }
+
+
+  public updateHandlerRacket(racket : racketDto):void{
+
+
+  }
+
+  public readHandlerRacket(racket : racketDto):void{
+
+
+  }
+
+
+  public deleteRacket(racket: racketDto):void{
     this.appService
-      .getRacketsBySearch(this.searchedWord,this.index)
+      .deleteRacket(racket)
       .pipe(
         tap({
           next: (res) => {
-            this.result = res.rackets;
-            this.pagesNumber = res.pages;
-            this.racketsNumber = res.elements;
-            this.colorList = res.colori.map((c : string) =>{
-             return {color_id: c, color_text: c}
-            })
-            this.sexList = res.sessi.map((c : string) =>{
-              return {sex_id: c, sex_text: c}
-             })
-             this.BrandList = res.marche.map((c : string) =>{
-              return {brand_id: c, brand_text: c}
-             })
             this.loading = false;
+
           },
           error: (err) => {
             this.loading = false;
-            this.errorServer = true;
+            console.log(err);
           },
         })
       )
-      .subscribe();
+      .subscribe(()=>this.loadData());
   }
 
-  public loadData(): void {
-    this.errorServer = false;
+
+
+
+
+  public loadData(): void{
     this.loading = true;
-    this.searchedWord ="";
     this.appService
       .getRackets(this.index)
       .pipe(
         tap({
           next: (res) => {
-            this.result = res.rackets;
+            this.loading = false;
+            this.racketList = res.rackets;
             this.pagesNumber = res.pages;
             this.racketsNumber = res.elements;
-            this.colorList = res.colori.map((c : string) =>{
-              return {color_id: c, color_text: c}
-             })
-             this.sexList = res.sessi.map((c : string) =>{
-               return {sex_id: c, sex_text: c}
-              })
-              this.BrandList = res.marche.map((c : string) =>{
-               return {brand_id: c, brand_text: c}
-              })
-            this.loading = false;
           },
           error: (err) => {
             this.loading = false;
-            this.errorServer = true;
+            console.log(err);
           },
         })
       )
       .subscribe();
-  }
-
-  public clearData(): void {
-    this.result = [];
-    this.trySearch = false;
-    this.errorServer = false;
-    this.sexList = [];
-    this.BrandList = [];
-    this.colorList = [];
-    this.index = 1;
-  }
-
-  public pageIndexingHandler(value: number): void{
-    this.index = value;
-    if(this.isFiltered){
-      this.filter();
-    } else {
-      this.searchedWord? this.handlerSearch() : this.loadData();
-    }
 
   }
 
@@ -234,10 +212,11 @@ export class SearchComponent {
      .pipe(
       tap({
         next: (res)=>{
-          this.result = res.rackets;
+          this.racketList = res.rackets;
           this.pagesNumber = res.pages;
-          console.log(this.pagesNumber)
           this.racketsNumber = res.elements;
+
+          console.log(this.pagesNumber)
           this.loading = false;
 
         },
@@ -280,4 +259,39 @@ export class SearchComponent {
     console.log(e);
   }
 
+  public handlerSearch(): void {
+    this.resetFilter();
+    this.errorServer = false;
+    this.loading = true;
+    this.trySearch = true;
+    this.isFiltered = false;
+    this.searchedWord = this.searchValue;
+    this.appService
+      .getRacketsBySearch(this.searchedWord,this.index)
+      .pipe(
+        tap({
+          next: (res) => {
+            this.racketList = res.rackets;
+            this.pagesNumber = res.pages;
+            this.racketsNumber = res.elements;
+
+            this.colorList = res.colori.map((c : string) =>{
+             return {color_id: c, color_text: c}
+            })
+            this.sexList = res.sessi.map((c : string) =>{
+              return {sex_id: c, sex_text: c}
+             })
+             this.BrandList = res.marche.map((c : string) =>{
+              return {brand_id: c, brand_text: c}
+             })
+            this.loading = false;
+          },
+          error: (err) => {
+            this.loading = false;
+            this.errorServer = true;
+          },
+        })
+      )
+      .subscribe();
+  }
 }
