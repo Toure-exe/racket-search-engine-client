@@ -1,1 +1,80 @@
-<p>detail-racket works!</p>
+<div class="container py-3">
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img [src]="selectedRacket.imageLink" class="img-fluid rounded-start"
+          [alt]="selectedRacket.marca+' - '+selectedRacket.modello">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h3 class="card-title">{{selectedRacket.marca+' - '+selectedRacket.modello}}</h3>
+          <div class="card-text">
+            <h4>Marca</h4>
+            <div>{{selectedRacket.marca}}</div>
+            <h4>Modello</h4>
+            <div>{{selectedRacket.modello}}</div>
+            <h4>Prezzo</h4>
+            <div> {{selectedRacket.prezzo}} <span
+                *ngIf="selectedRacket.vecchioPrezzo">{{selectedRacket.vecchioPrezzo}}</span>
+            </div>
+            <h4>Profilo</h4>
+            <div> {{selectedRacket.profilo}}
+            </div>
+            <h4>Lunghezza</h4>
+            <div> {{selectedRacket.lunghezza}}
+            </div>
+            <h4>Peso</h4>
+            <div> {{selectedRacket.peso}}
+            </div>
+            <h4>Colore Principale</h4>
+            <div> {{selectedRacket.coloreUno}}
+            </div>
+            <h4>Colori Secondari</h4>
+            <div> {{selectedRacket.coloreDue}}
+            </div>
+            <h4>Lunghezza</h4>
+            <div> {{selectedRacket.lunghezza}}
+            </div>
+            <h4>Peso</h4>
+            <div> {{selectedRacket.peso}}
+            </div>
+            <h4>ID Prodotto</h4>
+            <div> {{selectedRacket.racketId}}
+            </div>
+            <h4>Tipo di Gioco</h4>
+            <div> {{selectedRacket.tipoDiGioco}}
+            </div>
+            <h4>Tipo di Prodotto</h4>
+            <div> {{selectedRacket.tipoDiProdotto}}
+            </div>
+            <h4>Materiale</h4>
+            <div> {{selectedRacket.telaio}}
+            </div>
+            <h4>Livello di Gioco</h4>
+            <div> {{selectedRacket.livelloDiGioco}}
+            </div>
+            <h4>Forma</h4>
+            <div> {{selectedRacket.forma}}
+            </div>
+            <h4>Anni</h4>
+            <div> {{selectedRacket.eta}}
+            </div>
+            <h4>Bilanciamento</h4>
+            <div> {{selectedRacket.bilanciamento}}
+            </div>
+            <h4>Anno</h4>
+            <div> {{selectedRacket.anno}}
+            </div>
+            <h4>Link Prodotto</h4>
+            <div>
+              <a [href]="selectedRacket.url">{{selectedRacket.url}}</a>
+            </div>
+            <button class="btn btn-dark float-end my-3" routerLink="/admin"><span><i class="fa fa-right-from-bracket"></i> Torna al portale Admin</span></button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,27 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { racketDto } from 'src/app/models/racketDto';
 
+import { OperationType } from '../../enum/operation-type'
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-management',
   templateUrl: './management.component.html',
   styleUrls: ['./management.component.scss']
 })
-export class ManagementComponent {
+export class ManagementComponent implements OnInit {
 
   public loading: boolean;
 
   public racketForm: FormGroup;
   public selectedRacket: racketDto;
 
+  public operationType: OperationType;
+  public OperationType = OperationType;
 
-  constructor(private appService: AppService) {
+  constructor(
+    private appService: AppService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toast:ToastrService
+    ) {
 
     this.loading = false;
 
-    this.selectedRacket = {} as racketDto;
+    const path = this.route.snapshot.url[0].toString();
+    path == 'new-racket' ? this.operationType = OperationType.NEW : this.operationType = OperationType.EDIT;
+
+    this.selectedRacket = this.router.getCurrentNavigation()?.extras.state as racketDto;
 
     this.racketForm = new FormGroup({
       brand: new FormControl(null),
@@ -30,7 +43,7 @@ export class ManagementComponent {
       price: new FormControl(null),
       sex: new FormControl(null),
       mainColor: new FormControl(null),
-      mosecondaryColordel: new FormControl(null),
+      secondaryColor: new FormControl(null),
       profile: new FormControl(null),
       length: new FormControl(null),
       weight: new FormControl(null),
@@ -46,6 +59,10 @@ export class ManagementComponent {
       year: new FormControl(null),
       urlProduct: new FormControl(null)
     });
+  }
+
+  ngOnInit(): void {
+    this.selectedRacket && this.updateRacketForm()
   }
 
   public get brand() {
@@ -115,7 +132,7 @@ export class ManagementComponent {
 
   public addRacket(): void {
 
-    const racket: racketDto = {
+    const racket: Partial<racketDto> = {
       prezzo: this.price,
       vecchioPrezzo: this.oldPrice,
       marca: this.brand,
@@ -131,7 +148,7 @@ export class ManagementComponent {
       puntoDiEquilibrio: 0,
       tipoDiGioco: this.typeGame,
       url: this.urlProduct,
-      TipoDiProdotto: this.typeProduct,
+      tipoDiProdotto: this.typeProduct,
       telaio: '',
       nucleo: '',
       livelloDiGioco: '',
@@ -140,12 +157,13 @@ export class ManagementComponent {
       bilanciamento: this.balance,
       anno: this.year
     }
-    console.log(racket);
     this.appService.insertRacket(racket)
       .pipe(
         tap({
           next: (res) => {
             console.log("RESPONSE: ", res);
+            this.toast.success("Il prodotto è stato aggiunto con successo","Nuovo Prodotto Inserito")
+
           },
           error: (err) => {
             console.log(err);
@@ -154,7 +172,7 @@ export class ManagementComponent {
       ).subscribe();
   }
   public updateRacket(): void {
-    const racket: racketDto = {
+    const racket: Partial<racketDto> = {
       prezzo: this.price,
       vecchioPrezzo: this.oldPrice,
       marca: this.brand,
@@ -170,14 +188,15 @@ export class ManagementComponent {
       puntoDiEquilibrio: 0,
       tipoDiGioco: this.typeGame,
       url: this.urlProduct,
-      TipoDiProdotto: this.typeProduct,
+      tipoDiProdotto: this.typeProduct,
       telaio: '',
       nucleo: '',
       livelloDiGioco: '',
       forma: this.shape,
       eta: this.age,
       bilanciamento: this.balance,
-      anno: this.year
+      anno: this.year,
+      //racketId: this.idProduct
     }
     const updatedRacket = { ...this.selectedRacket, ...racket }
     this.appService
@@ -186,6 +205,7 @@ export class ManagementComponent {
         tap({
           next: (res) => {
             this.loading = false;
+            this.toast.success("Il prodotto è stato modificato con successo","Prodotto Modificato")
 
           },
           error: (err) => {
@@ -197,52 +217,55 @@ export class ManagementComponent {
       .subscribe()
   }
 
-  private cleanForm():void{
+  private cleanForm(): void {
     this.selectedRacket = {} as racketDto;
 
-    this.racketForm.patchValue({brand: null});
-    this.racketForm.patchValue({oldPrice: null});
-    this.racketForm.patchValue({price: null});
-    this.racketForm.patchValue({sex: null});
-    this.racketForm.patchValue({mainColor: null});
-    this.racketForm.patchValue({mosecondaryColordel: null});
-    this.racketForm.patchValue({profile: null});
-    this.racketForm.patchValue({length: null});
-    this.racketForm.patchValue({weight: null});
-    this.racketForm.patchValue({idProduct: null});
-    this.racketForm.patchValue({typeGame: null});
-    this.racketForm.patchValue({typeProduct: null});
-    this.racketForm.patchValue({image: null});
-    this.racketForm.patchValue({seniorityPlayer: null});
-    this.racketForm.patchValue({shape: null});
-    this.racketForm.patchValue({age: null});
-    this.racketForm.patchValue({balance: null});
-    this.racketForm.patchValue({year: null});
-    this.racketForm.patchValue({urlProduct: null});
+    this.racketForm.patchValue({ brand: null });
+    this.racketForm.patchValue({ model: null });
+
+    this.racketForm.patchValue({ oldPrice: null });
+    this.racketForm.patchValue({ price: null });
+    this.racketForm.patchValue({ sex: null });
+    this.racketForm.patchValue({ mainColor: null });
+    this.racketForm.patchValue({ mosecondaryColordel: null });
+    this.racketForm.patchValue({ profile: null });
+    this.racketForm.patchValue({ length: null });
+    this.racketForm.patchValue({ weight: null });
+    this.racketForm.patchValue({ idProduct: null });
+    this.racketForm.patchValue({ typeGame: null });
+    this.racketForm.patchValue({ typeProduct: null });
+    this.racketForm.patchValue({ image: null });
+    this.racketForm.patchValue({ seniorityPlayer: null });
+    this.racketForm.patchValue({ shape: null });
+    this.racketForm.patchValue({ age: null });
+    this.racketForm.patchValue({ balance: null });
+    this.racketForm.patchValue({ year: null });
+    this.racketForm.patchValue({ urlProduct: null });
   }
 
-  public updateHandlerRacket(racket : racketDto):void{
-    this.selectedRacket = racket;
+  public updateRacketForm(): void {
+    const  racket = this.selectedRacket
 
-    this.racketForm.patchValue({brand: racket.marca});
-    this.racketForm.patchValue({oldPrice: racket.vecchioPrezzo});
-    this.racketForm.patchValue({price: racket.prezzo});
-    this.racketForm.patchValue({sex: racket.sesso});
-    this.racketForm.patchValue({mainColor: racket.coloreUno});
-    this.racketForm.patchValue({mosecondaryColordel: racket.coloreDue});
-    this.racketForm.patchValue({profile: racket.profilo});
-    this.racketForm.patchValue({length: racket.lunghezza});
-    this.racketForm.patchValue({weight: racket.peso});
-    this.racketForm.patchValue({idProduct: racket.numeroArticolo});
-    this.racketForm.patchValue({typeGame: racket.tipoDiGioco});
-    this.racketForm.patchValue({typeProduct: racket.TipoDiProdotto});
-    this.racketForm.patchValue({image: racket.imageLink});
-    this.racketForm.patchValue({seniorityPlayer: racket.livelloDiGioco});
-    this.racketForm.patchValue({shape: racket.forma});
-    this.racketForm.patchValue({age: racket.eta});
-    this.racketForm.patchValue({balance: racket.bilanciamento});
-    this.racketForm.patchValue({year: racket.anno});
-    this.racketForm.patchValue({urlProduct: racket.url});
+    this.racketForm.patchValue({ brand: racket.marca });
+    this.racketForm.patchValue({ model: racket.modello });
+    this.racketForm.patchValue({ oldPrice: racket.vecchioPrezzo });
+    this.racketForm.patchValue({ price: racket.prezzo });
+    this.racketForm.patchValue({ sex: racket.sesso });
+    this.racketForm.patchValue({ mainColor: racket.coloreUno });
+    this.racketForm.patchValue({ mosecondaryColordel: racket.coloreDue });
+    this.racketForm.patchValue({ profile: racket.profilo });
+    this.racketForm.patchValue({ length: racket.lunghezza });
+    this.racketForm.patchValue({ weight: racket.peso });
+    this.racketForm.patchValue({ idProduct: racket.numeroArticolo });
+    this.racketForm.patchValue({ typeGame: racket.tipoDiGioco });
+    this.racketForm.patchValue({ typeProduct: racket.tipoDiProdotto });
+    this.racketForm.patchValue({ image: racket.imageLink });
+    this.racketForm.patchValue({ seniorityPlayer: racket.livelloDiGioco });
+    this.racketForm.patchValue({ shape: racket.forma });
+    this.racketForm.patchValue({ age: racket.eta });
+    this.racketForm.patchValue({ balance: racket.bilanciamento });
+    this.racketForm.patchValue({ year: racket.anno });
+    this.racketForm.patchValue({ urlProduct: racket.url });
 
   }
 }

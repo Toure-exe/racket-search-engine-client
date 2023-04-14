@@ -13,7 +13,7 @@ export class AppService {
   public url_insertRacket: string;
   public url_delete: string;
   public url_update: string;
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient) {
     this.url =        "https://localhost:7217/api/Racket/rackets/";
     this.url_search = "https://localhost:7217/api/Racket/search/";
     this.url_filter = "https://localhost:7217/api/Racket/rackets/filter/";
@@ -36,7 +36,7 @@ export class AppService {
     return this.http.post(this.url_filter+currentPage,filter) as Observable<any>;
   }
 
-  public insertRacket(racket: racketDto): Observable<any>{
+  public insertRacket(racket: Partial<racketDto>): Observable<any>{
     return this.http.post(this.url_insertRacket,racket);
   }
 

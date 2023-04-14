@@ -10,8 +10,6 @@
     </form>
   </nav>
   <div class="py-4">
-    <div *ngIf="loading">caricamento in corso...</div>
-    <div *ngIf="!loading">
       <ng-container *ngIf="racketList">
         <form>
           <div class="row row-cols-1 row-cols-lg-4">
@@ -60,7 +58,7 @@
 
       </ng-container>
       <div class="mt-2">
-        <button class="btn btn-primary"><span><i class="fa fa-plus"></i></span> Aggiungi Prodotto</button>
+        <button class="btn btn-primary" routerLink="new-racket"><span><i class="fa fa-plus"></i></span> Aggiungi Prodotto</button>
       </div>
       <div *ngIf="racketList.length == 0 && trySearch">
         <h3>Nessun risultato trovato.</h3>
@@ -70,37 +68,38 @@
       <div *ngIf="errorServer" class="bg-danger p-2">
         Al momento il sito è in manutenzione, riprovare piu' tardi.
       </div>
-    </div>
   </div>
   <div *ngIf="racketList.length > 0" class=" my-4">
     <mat-paginator #paginator class="demo-paginator" (page)="pageIndexingHandler($event)" [length]="racketsNumber"
-      [pageSize]="racketList.length" [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[]"
+      [pageSize]="20" [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[]"
       [hidePageSize]="false" [pageIndex]="index-1" aria-label="Select page">
     </mat-paginator>
-    <table class="table">
+    <div class="table-responsive-lg">
+      <table class="table table-hover ">
       <thead>
         <tr>
-          <th scope="col">Marca</th>
-          <th scope="col">Modello</th>
-          <th scope="col">Prezzo</th>
-          <th scope="col">Azioni</th>
+          <th class="cell-brand"scope="col">Marca</th>
+          <th class="cell-model"scope="col">Modello</th>
+          <th class="cell-price"scope="col">Prezzo</th>
+          <th class="cell-actions" scope="col">Azioni</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let racket of racketList">
-          <td>{{ racket.marca }}</td>
-          <td>{{ racket.modello }}</td>
-          <td>{{ racket.prezzo |currency:'EUR' }}</td>
-
-          <td><span (click)="deleteRacket(racket)" class="m-2"><i class="fa fa-trash"></i></span>
-            <span (click)="updateHandlerRacket(racket)" class="m-2"><i class="fa fa-pencil"></i></span>
-            <span (click)="readHandlerRacket(racket)" class="m-2"><i class="fa fa-eye"></i></span>
+          <td class="cell-brand">{{ racket.marca }}</td>
+          <td class="cell-model">{{ racket.modello }}</td>
+          <td class="cell-price">{{ racket.prezzo |currency:'EUR' }}</td>
+          <td class="cell-actions">
+            <span (click)="deleteRacket(racket)" class="me-2 actions"><i class="fa fa-trash"></i></span>
+            <span (click)="updateHandlerRacket(racket)" routerLink="edit-racket" [state]=racket class="m-2 actions"><i class="fa fa-pencil"></i></span>
+            <span (click)="readHandlerRacket(racket)" routerLink="detail-racket" [state]=racket class="m-2 actions"><i class="fa fa-eye"></i></span>
           </td>
         </tr>
       </tbody>
     </table>
+    </div>
     <mat-paginator #paginator class="demo-paginator" (page)="pageIndexingHandler($event)" [length]="racketsNumber"
-      [pageSize]="racketList.length" [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[]"
+      [pageSize]="20" [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[]"
       [hidePageSize]="false" [pageIndex]="index-1" aria-label="Select page">
     </mat-paginator>
   </div>

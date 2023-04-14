@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { PageEvent } from '@angular/material/paginator';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { ToastrService } from 'ngx-toastr';
 import { tap } from 'rxjs';
 import { AppService } from 'src/app/app.service';
 import { racketDto } from 'src/app/models/racketDto';
@@ -36,7 +37,9 @@ export class AdminComponent {
   public trySearch: boolean;
   public errorServer: boolean;
 
-  constructor(private appService: AppService) {
+  constructor(private appService: AppService,
+    private toast:ToastrService) {
+
     this.trySearch = false;
     this.errorServer = false;
 
@@ -147,7 +150,7 @@ export class AdminComponent {
         tap({
           next: (res) => {
             this.loading = false;
-
+            this.toast.success("Il prodotto è stato eliminato","Eliminato")
           },
           error: (err) => {
             this.loading = false;

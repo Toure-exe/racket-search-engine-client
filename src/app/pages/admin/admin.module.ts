@@ -8,13 +8,15 @@ import { AdminComponent } from './components/landing/admin.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { RacketDeleteComponent } from './components/racket-delete/racket-delete.component';
 
 
 @NgModule({
   declarations: [
     DetailRacketComponent,
     ManagementComponent,
-    AdminComponent
+    AdminComponent,
+    RacketDeleteComponent
   ],
   imports: [
     CommonModule,
