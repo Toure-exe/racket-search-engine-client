@@ -1,25 +1,30 @@
 <div class="container">
   <h3>{{operationType==OperationType.NEW ? 'Nuovo Prodotto' : "Modifica Prodotto - "+selectedRacket.modello}}</h3>
   <form [formGroup]="racketForm" class="row">
-
     <div class="col-md-5">
       <label for="brand" class="form-label">Marchio</label>
-      <input type="text" name="brand" formControlName="brand" class="form-control" />
+      <input type="text" name="brand" formControlName="brand" class="form-control" [ngClass]="{'is-invalid':fieldIsInvalid('brand')}" />
+      <span *ngIf="fieldIsInvalid('brand')" class="invalid-feedback">Campo Obbligatorio</span>
     </div>
     <div class="col-md-4">
       <label for="model" class="form-label">Modello</label>
-      <input type="text" name="model" formControlName="model" class="form-control" />
+      <input type="text" name="model" formControlName="model" class="form-control" [ngClass]="{'is-invalid':fieldIsInvalid('model')}"/>
+      <span *ngIf="fieldIsInvalid('model')" class="invalid-feedback">Campo Obbligatorio</span>
+
     </div>
     <div class="col-md-3">
       <label for="year" class="form-label">Anno Prodotto</label>
-      <input type="text" name="year" formControlName="year" class="form-control" />
+      <input type="text" name="year" formControlName="year" class="form-control"  [ngClass]="{'is-invalid':fieldIsInvalid('year')}"/>
+      <span *ngIf="fieldIsInvalid('year')" class="invalid-feedback">Campo Obbligatorio</span>
     </div>
 
     <div class="col-md-6"><label for="oldPrice" class="form-label">Vecchio Prezzo</label>
       <input type="text" name="oldPrice" formControlName="oldPrice" class="form-control" />
     </div>
     <div class="col-md-6"><label for="price" class="form-label">Prezzo Attuale o Prezzo Scontato</label>
-      <input type="text" name="price" formControlName="price" class="form-control" />
+      <input type="text" name="price" formControlName="price" class="form-control"  [ngClass]="{'is-invalid':fieldIsInvalid('price')}"/>
+      <span *ngIf="fieldIsInvalid('price')" class="invalid-feedback">Campo Obbligatorio</span>
+
     </div>
 
     <div class="col-md-4">
@@ -28,7 +33,8 @@
     </div>
     <div class="col-md-4">
       <label for="mainColor" class="form-label">Colore Principale</label>
-      <input type="text" name="mainColor" formControlName="mainColor" class="form-control" />
+      <input type="text" name="mainColor" formControlName="mainColor" class="form-control"  [ngClass]="{'is-invalid':fieldIsInvalid('mainColor')}" />
+      <span *ngIf="fieldIsInvalid('mainColor')" class="invalid-feedback">Campo Obbligatorio</span>
     </div>
     <div class="col-md-4">
       <label for="secondaryColor" class="form-label">Colore Secondario</label>
