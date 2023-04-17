@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="d-flex justify-content-center align-items-center">
+    <div class="form-auth p-3">
+      <h3>Auth</h3>
+      <form action="">
+        <label class="form-label">Email</label>
+        <input type="email" name="" id="" class="form-control">
+        <label class="form-label">Password</label>
+        <input type="password" name="" id="" class="form-control">
+        <div>
+          Password dimenticata?
+        </div>
+        <div>
+          Nuovo Utente?
+        </div>
+        <button class="btn btn-primary mt-3" (click)="authLogin()">Login</button>
+
+        <div class="d-grid gap-3 mt-3">
+          <button class="btn btn-primary" type="button" (click)="authSSO()">SSO Google</button>
+          <button class="btn btn-primary" type="button" (click)="authSSO()">SSO Facebook</button>
+          <button class="btn btn-primary" type="button" (click)="authSSO()">SSO Microsoft</button>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+
+</div>

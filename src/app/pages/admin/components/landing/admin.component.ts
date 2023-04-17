@@ -144,6 +144,8 @@ export class AdminComponent {
 
 
   public deleteRacket(racket: racketDto):void{
+    this.errorServer = false;
+
     this.appService
       .deleteRacket(racket)
       .pipe(
@@ -154,6 +156,8 @@ export class AdminComponent {
           },
           error: (err) => {
             this.loading = false;
+            this.errorServer = true;
+
             console.log(err);
           },
         })
@@ -166,6 +170,7 @@ export class AdminComponent {
 
 
   public loadData(): void{
+    this.errorServer = false;
     this.loading = true;
     this.appService
       .getRackets(this.index)
@@ -179,6 +184,8 @@ export class AdminComponent {
           },
           error: (err) => {
             this.loading = false;
+            this.errorServer = true;
+
             console.log(err);
           },
         })
@@ -193,6 +200,8 @@ export class AdminComponent {
   }
 
   public filter(): void{
+    this.errorServer = false;
+
      const filter = {
       keyword: this.searchedWord,
       order: this.selectedOrder,

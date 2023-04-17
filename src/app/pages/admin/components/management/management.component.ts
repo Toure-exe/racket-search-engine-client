@@ -15,6 +15,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ManagementComponent implements OnInit {
 
   public loading: boolean;
+  public errorServer: boolean;
+
 
   public racketForm: FormGroup;
   public selectedRacket: racketDto;
@@ -31,6 +33,7 @@ export class ManagementComponent implements OnInit {
     private toast: ToastrService
   ) {
 
+    this.errorServer = false;
     this.loading = false;
 
     const path = this.route.snapshot.url[0].toString();
@@ -136,6 +139,7 @@ export class ManagementComponent implements OnInit {
   }
 
   public addRacket(): void {
+    this.errorServer = false;
     this.formSubmitAttempt = true;
     if (this.racketForm.valid) {
       console.log('ok')
@@ -149,6 +153,7 @@ export class ManagementComponent implements OnInit {
 
             },
             error: (err) => {
+              this.errorServer = true;
               console.log(err);
             },
           })
@@ -157,6 +162,7 @@ export class ManagementComponent implements OnInit {
 
   }
   public updateRacket(): void {
+    this.errorServer = false;
     this.formSubmitAttempt = true;
 
     if (this.racketForm.valid) {
@@ -174,6 +180,8 @@ export class ManagementComponent implements OnInit {
             },
             error: (err) => {
               this.loading = false;
+              this.errorServer = true;
+
               console.log(err);
             },
           })

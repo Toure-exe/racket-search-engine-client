@@ -3,6 +3,8 @@
     <div class="navbar-brand"><a [routerLink]="['']">racket</a></div>
     <div class="navbar-nav">
         <div class="navbar-item text-white"><a [routerLink]="['admin']">Portale Admin</a></div>
+        <div class="navbar-item text-white" *ngIf="!isLogged"><a [routerLink]="['auth']">Login</a></div>
+        <div class="navbar-item text-white" *ngIf="isLogged"><a (click)="logout()">Logout</a></div>
     </div>
   </div>
 </nav>

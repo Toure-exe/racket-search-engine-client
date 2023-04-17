@@ -10,12 +10,14 @@ import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { SearchComponent } from './pages/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthComponent } from './pages/auth/auth.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SearchComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
