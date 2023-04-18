@@ -1,4 +1,4 @@
-import { Component, OnChanges, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
@@ -6,14 +6,15 @@ import { AuthService } from 'src/app/core/auth/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnChanges{
+export class NavbarComponent {
 
-  public isLogged : boolean;
-  constructor(private authService: AuthService){
-   this.isLogged = this.authService.userLogged();
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    throw new Error('Method not implemented.');
+  public isLogged: boolean;
+
+  constructor(private authService: AuthService) {
+    this.isLogged = this.authService.userLogged();
+    this.authService.isLogged.subscribe(status =>
+      this.isLogged = status
+    );
   }
 
   public logout(): void {

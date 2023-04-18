@@ -2,11 +2,11 @@
   <div class="d-flex justify-content-center align-items-center">
     <div class="form-auth p-3">
       <h3>Auth</h3>
-      <form action="">
+      <form [formGroup]="authForm">
         <label class="form-label">Email</label>
-        <input type="email" name="" id="" class="form-control">
+        <input type="email" name="" id="" class="form-control" formControlName="email">
         <label class="form-label">Password</label>
-        <input type="password" name="" id="" class="form-control">
+        <input type="password" name="" id="" class="form-control" formControlName="password">
         <div>
           Password dimenticata?
         </div>
