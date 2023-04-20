@@ -1,10 +1,17 @@
 <nav class="navbar navbar-dark bg-dark">
   <div class="container">
-    <div class="navbar-brand"><a [routerLink]="['']">racket</a></div>
-    <div class="navbar-nav">
-        <div class="navbar-item text-white"><a [routerLink]="['admin']">Portale Admin</a></div>
-        <div class="navbar-item text-white" *ngIf="!isLogged"><a [routerLink]="['auth']">Login</a></div>
-        <div class="navbar-item text-white" *ngIf="isLogged"><a class="link" (click)="logout()">Logout</a></div>
+    <div class="navbar-brand" [routerLink]="['']"><a class="text-white">
+        <span class="text-white"><i class="fa fa-sharp fa-solid fa-square"></i></span>
+        Racchette
+    </a></div>
+    <div class="navbar-nav flex-row">
+      <div class="navbar-item text-white mx-2" *ngIf="isLogged"><a [routerLink]="['admin']">Portale Admin</a></div>
+      <div class="navbar-item text-white" *ngIf="!isLogged"><a [routerLink]="['auth']">Login Admin Portal</a></div>
+      <div class="navbar-item text-white" *ngIf="isLogged"><a class="link" (click)="logout()">Logout</a></div>
+      <div class="navbar-item text-white mx-2 fw-lighter" *ngIf="isLogged">
+        ({{user.username}})
+      </div>
+
     </div>
   </div>
 </nav>

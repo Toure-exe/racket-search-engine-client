@@ -126,10 +126,12 @@ export class AdminComponent {
   }
 
   public pageIndexingHandler(value: PageEvent): void{
-    console.log(value)
     this.index = value.pageIndex+1;
-    this.loadData();
-  }
+    if(this.isFiltered){
+      this.filter();
+    } else {
+      this.searchedWord? this.handlerSearch() : this.loadData();
+    }  }
 
 
   public updateHandlerRacket(racket : racketDto):void{

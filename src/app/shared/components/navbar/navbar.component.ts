@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { ActiveAccount } from 'src/app/core/auth/active-account';
 import { AuthService } from 'src/app/core/auth/auth.service';
 
 @Component({
@@ -9,12 +10,20 @@ import { AuthService } from 'src/app/core/auth/auth.service';
 export class NavbarComponent {
 
   public isLogged: boolean;
+  public user:ActiveAccount;
 
   constructor(private authService: AuthService) {
-    this.isLogged = this.authService.userLogged();
-    this.authService.isLogged.subscribe(status =>
+    this.isLogged = this.authService.isUserLogged();
+    this.user = this.authService.userLogged();
+
+    this.authService.isLoggedSubject.subscribe(status =>
       this.isLogged = status
     );
+
+    this.authService.userActiveSubject.subscribe(status =>
+      this.user = status
+    );
+
   }
 
   public logout(): void {

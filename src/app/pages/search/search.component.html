@@ -97,8 +97,12 @@
     </div>
   </div>
 </div>
-<div *ngIf="result.length > 0" class="position-relative m-4">
-  <nav *ngIf="!loading" class="position-absolute bottom-0 end-0" aria-label="pagination">
+<div *ngIf="result.length > 0" class=" my-4">
+  <mat-paginator #paginator class="demo-paginator" (page)="pageIndexingHandler($event)" [length]="racketsNumber"
+      [pageSize]="20" [disabled]="false" [showFirstLastButtons]="true" [pageSizeOptions]="[]"
+      [hidePageSize]="false" [pageIndex]="index-1" aria-label="Select page">
+    </mat-paginator>
+  <!-- <nav *ngIf="!loading" class="position-absolute bottom-0 end-0" aria-label="pagination">
     <ul class="pagination">
       <div *ngIf="index > 1">
         <li class="page-item">
@@ -150,5 +154,5 @@
         </li>
       </span>
     </ul>
-  </nav>
+  </nav> -->
 </div>

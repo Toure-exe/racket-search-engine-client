@@ -11,6 +11,8 @@ import { SearchComponent } from './pages/search/search.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthComponent } from './pages/auth/auth.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { AuthComponent } from './pages/auth/auth.component';
     HttpClientModule,
     NgMultiSelectDropDownModule.forRoot(),
     BrowserAnimationsModule,
+    MatPaginatorModule,
+    MatSelectModule,
     ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [],

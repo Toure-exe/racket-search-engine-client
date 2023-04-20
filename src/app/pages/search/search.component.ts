@@ -4,6 +4,7 @@ import { EventType } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { tap } from 'rxjs';
 import { AppService } from '../../app.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-search',
@@ -196,8 +197,8 @@ export class SearchComponent {
     this.index = 1;
   }
 
-  public pageIndexingHandler(value: number): void{
-    this.index = value;
+  public pageIndexingHandler(value: PageEvent): void{
+    this.index = value.pageIndex+1;
     if(this.isFiltered){
       this.filter();
     } else {
