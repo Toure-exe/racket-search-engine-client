@@ -1,11 +1,11 @@
-<nav class="navbar bg-light sticky-top">
-  <div class="container-fluid">
+<nav class="navbar sticky-top">
+  <div class="container">
     <span class="navbar-brand fw-bold" (click)="loadData()">{{ title }}</span>
     <form class="d-flex" role="search" [formGroup]="searchForm">
-      <input class="form-control me-2" formControlName="search" type="search" placeholder="Search"
+      <input class="form-control me-2" formControlName="search" type="search" placeholder="Inserisci parola chiave"
         aria-label="Search" />
-      <button class="btn btn-outline-success me-2" type="click" (click)="handlerSearch()">
-        Search
+      <button class="btn btn-outline-success" type="click" (click)="handlerSearch()">
+        Ricerca
       </button>
       <!-- <button class="btn btn-outline-dark" type="click" (click)="clearData()">
         Clear Data
