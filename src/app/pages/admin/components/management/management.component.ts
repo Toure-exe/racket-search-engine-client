@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/fo
 import { ActivatedRoute, Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { racketDto } from 'src/app/models/racketDto';
+import { racketDto } from 'src/app/shared/models/racketDto';
 
 import { OperationType } from '../../enum/operation-type'
 import { ToastrService } from 'ngx-toastr';

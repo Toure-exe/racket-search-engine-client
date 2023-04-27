@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AuthComponent } from './pages/auth/auth.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MatSelectModule } from '@angular/material/select';
     BrowserAnimationsModule,
     MatPaginatorModule,
     MatSelectModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot(),
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

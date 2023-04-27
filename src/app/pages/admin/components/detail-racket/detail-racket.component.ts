@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { racketDto } from 'src/app/models/racketDto';
+import { racketDto } from 'src/app/shared/models/racketDto';
 
 @Component({
   selector: 'app-detail-racket',

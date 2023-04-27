@@ -2,11 +2,11 @@
   <div class="d-flex justify-content-center align-items-center">
     <div class="form-auth p-3">
       <ng-container [ngSwitch]="operationType">
-        <h3 *ngSwitchCase="ENUMOperationType.LOGIN">Login</h3>
-        <h3 *ngSwitchCase="ENUMOperationType.SIGNUP">Signup</h3>
-        <h3 *ngSwitchCase="ENUMOperationType.LOST_PASSWORD">Recover Password</h3>
+        <h3 *ngSwitchCase="ENUM_OperationType.LOGIN">Login</h3>
+        <h3 *ngSwitchCase="ENUM_OperationType.SIGNUP">Signup</h3>
+        <h3 *ngSwitchCase="ENUM_OperationType.LOST_PASSWORD">Recover Password</h3>
       </ng-container>
-      <form [formGroup]="authLoginForm" *ngIf="operationType==ENUMOperationType.LOGIN">
+      <form [formGroup]="authLoginForm" *ngIf="operationType==ENUM_OperationType.LOGIN">
         <label class="form-label">Email</label>
         <input type="email" name="email" class="form-control" formControlName="email" [email]="true" [ngClass]="{'is-invalid':fieldIsInvalid(emailLogin)}">
         <span *ngIf="fieldIsInvalid(emailLogin)" class="invalid-feedback">Campo Obbligatorio</span>
@@ -17,7 +17,7 @@
         <span *ngIf="fieldIsInvalid(passwordLogin)" class="invalid-feedback">Campo Obbligatorio</span>
 
       </form>
-      <form [formGroup]="authSignupForm" *ngIf="operationType==ENUMOperationType.SIGNUP">
+      <form [formGroup]="authSignupForm" *ngIf="operationType==ENUM_OperationType.SIGNUP">
         <label class="form-label">Username</label>
         <input type="text" name="username" class="form-control" formControlName="username" [ngClass]="{'is-invalid':fieldIsInvalid(usernameSignup)}">
         <span *ngIf="fieldIsInvalid(usernameSignup)" class="invalid-feedback">Campo Obbligatorio</span>
@@ -49,35 +49,35 @@
 
 
       </form>
-      <form [formGroup]="authRecoverForm" *ngIf="operationType==ENUMOperationType.LOST_PASSWORD">
+      <form [formGroup]="authRecoverForm" *ngIf="operationType==ENUM_OperationType.LOST_PASSWORD">
         <label class="form-label">Email</label>
         <input type="email" name="email" class="form-control" formControlName="email" [email]="true" [ngClass]="{'is-invalid':fieldIsInvalid(emailRecover)}">
         <span *ngIf="fieldIsInvalid(emailRecover)" class="invalid-feedback">Campo Obbligatorio</span>
         <span *ngIf="emailRecover.hasError('email') && formSubmitAttempt" class="invalid-feedback">Email non valida</span>
 
       </form>
-      <a class="d-block text-black text-decoration-none" *ngIf="operationType!=ENUMOperationType.LOGIN" (click)="changeAuthOperation(ENUMOperationType.LOGIN)">
+      <a class="d-block text-black text-decoration-none" *ngIf="operationType!=ENUM_OperationType.LOGIN" (click)="changeAuthOperation(ENUM_OperationType.LOGIN)">
         Sei già registrato?
       </a>
-      <a class="d-block text-black text-decoration-none" *ngIf="operationType!=ENUMOperationType.SIGNUP" (click)="changeAuthOperation(ENUMOperationType.SIGNUP)">
+      <a class="d-block text-black text-decoration-none" *ngIf="operationType!=ENUM_OperationType.SIGNUP" (click)="changeAuthOperation(ENUM_OperationType.SIGNUP)">
         Nuovo Utente?
       </a>
-      <a class="d-block text-black text-decoration-none" *ngIf="operationType!=ENUMOperationType.LOST_PASSWORD"
-        (click)="changeAuthOperation(ENUMOperationType.LOST_PASSWORD)">
+      <a class="d-block text-black text-decoration-none" *ngIf="operationType!=ENUM_OperationType.LOST_PASSWORD"
+        (click)="changeAuthOperation(ENUM_OperationType.LOST_PASSWORD)">
         Password dimenticata?
       </a>
       <button class="btn btn-dark mt-3 me-2" type="reset">Reset</button>
-      <button class="btn btn-primary mt-3" type="button" *ngIf="operationType==ENUMOperationType.LOGIN"
+      <button class="btn btn-primary mt-3" type="button" *ngIf="operationType==ENUM_OperationType.LOGIN"
         (click)="authLogin()">Login</button>
-      <button class="btn btn-primary mt-3" type="button" *ngIf="operationType==ENUMOperationType.SIGNUP"
+      <button class="btn btn-primary mt-3" type="button" *ngIf="operationType==ENUM_OperationType.SIGNUP"
         (click)="authSignup()">Signup</button>
-      <button class="btn btn-primary mt-3" type="button" *ngIf="operationType==ENUMOperationType.LOST_PASSWORD"
+      <button class="btn btn-primary mt-3" type="button" *ngIf="operationType==ENUM_OperationType.LOST_PASSWORD"
         (click)="authResetPassword()">Send Request</button>
 
-      <div class="d-grid gap-3 mt-3" *ngIf="operationType!=ENUMOperationType.LOST_PASSWORD">
-        <button class="btn btn-primary" type="button" (click)="authSSO()">SSO Google</button>
-        <button class="btn btn-primary" type="button" (click)="authSSO()">SSO Facebook</button>
-        <button class="btn btn-primary" type="button" (click)="authSSO()">SSO Microsoft</button>
+      <div class="d-grid gap-3 mt-3" *ngIf="operationType!=ENUM_OperationType.LOST_PASSWORD">
+        <button class="btn btn-primary" type="button" (click)="authSSO(ENUM_SSO_Type.GOOGLE)">SSO Google</button>
+        <button class="btn btn-primary" type="button" (click)="authSSO(ENUM_SSO_Type.FACEBOOK)">SSO Facebook</button>
+        <button class="btn btn-primary" type="button" (click)="authSSO(ENUM_SSO_Type.MICROSOFT)">SSO Microsoft</button>
       </div>
     </div>
   </div>

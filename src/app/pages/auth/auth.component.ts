@@ -3,6 +3,10 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/core/auth/auth.service';
 import { AuthOperationType } from './enum/auth';
+import { SSO_Type } from './enum/sso';
+import { Router } from '@angular/router';
+
+declare var google: any;
 
 @Component({
   selector: 'app-auth',
@@ -21,11 +25,16 @@ export class AuthComponent {
   public messageError: string;
 
   public operationType: AuthOperationType;
-  public ENUMOperationType = AuthOperationType;
+
+  public ENUM_OperationType = AuthOperationType;
+  public ENUM_SSO_Type = SSO_Type;
+
+
 
   constructor(
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router,
   ) {
     this.authResultOperation = null;
     this.authLoginForm = new FormGroup({
@@ -89,8 +98,26 @@ export class AuthComponent {
 
   }
 
-  public authSSO(): void {
+  public authSSO(SSO_Type:SSO_Type): void {
+      switch (SSO_Type) {
+        case this.ENUM_SSO_Type.GOOGLE:{
+          //this.authService.loginGOOGLE();
 
+          google.accounts.id.initialize({
+            client_id:"600543089869-plavm2lirv6k30ti8mf76rgeicu28tr2.apps.googleusercontent.com",
+            auto_select: false, // optional
+            //cancel_on_tap_outside: false, // optional
+            /* redirectUri: 'http://localhost:4200/admin',
+            issuer: 'https://accounts.google.com', */
+            //context: 'signin', // optional
+          })
+          google.accounts.id.prompt(); // also display the One Tap dialog
+
+        }
+          break;
+        default:
+          break;
+      }
   }
 
   public authSignup(): void {

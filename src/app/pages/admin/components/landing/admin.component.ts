@@ -5,7 +5,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ToastrService } from 'ngx-toastr';
 import { tap } from 'rxjs';
 import { AppService } from 'src/app/app.service';
-import { racketDto } from 'src/app/models/racketDto';
+import { racketDto } from 'src/app/shared/models/racketDto';
 
 @Component({
   selector: 'app-admin',
@@ -164,7 +164,10 @@ export class AdminComponent {
           },
         })
       )
-      .subscribe(()=>this.loadData());
+      .subscribe(()=>{
+        this.racketList.length==0 && this.index--;
+        this.loadData()
+      });
   }
 
 

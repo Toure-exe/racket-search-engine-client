@@ -5,6 +5,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { tap } from 'rxjs';
 import { AppService } from '../../app.service';
 import { PageEvent } from '@angular/material/paginator';
+import { racketDto } from 'src/app/shared/models/racketDto';
 
 @Component({
   selector: 'app-search',
@@ -255,6 +256,10 @@ export class SearchComponent {
     this.selectedSex = [];
     this.selectedBrand = [];
     this.selectedOrder = "default";
+  }
+
+  public getDiscountPercent(racket:racketDto): number{
+    return (1-racket.prezzo/racket.vecchioPrezzo)
   }
 
   public onColorSelect(e: any): void{
