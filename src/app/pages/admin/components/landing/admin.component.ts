@@ -154,7 +154,11 @@ export class AdminComponent {
         tap({
           next: (res) => {
             this.loading = false;
-            this.toast.success("Il prodotto è stato eliminato","Eliminato")
+            this.toast.success("Il prodotto è stato eliminato","Eliminato");
+            if(this.racketList.length==1){
+              --this.index;
+              console.log('res')
+            }
           },
           error: (err) => {
             this.loading = false;
@@ -165,8 +169,7 @@ export class AdminComponent {
         })
       )
       .subscribe(()=>{
-        this.racketList.length==0 && this.index--;
-        this.loadData()
+        this.isFiltered ? this.filter() :this.loadData()
       });
   }
 
